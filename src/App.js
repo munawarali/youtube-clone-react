@@ -19,7 +19,7 @@ class App extends React.Component {
     youtube
       .get("search", {
         params: {
-          key: "AIzaSyAlqx65iCtGjdaoSg0RjM0Cvi8Z_9G2wwc",
+          key: "Place your API key here",
           part: "snippet",
           maxResults: 5,
           q: name,
