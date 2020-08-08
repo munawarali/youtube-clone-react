@@ -3,6 +3,9 @@ import "./App.css";
 import youtube from "./axios";
 import Big from "./big";
 import List from "./list";
+import Home from "./Home";
+import TextField from "@material-ui/core/TextField";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 class App extends React.Component {
   state = {
     serchItem: "",
@@ -19,7 +22,7 @@ class App extends React.Component {
     youtube
       .get("search", {
         params: {
-          key: "Place your API key here",
+          key: "AIzaSyAlqx65iCtGjdaoSg0RjM0Cvi8Z_9G2wwc",
           part: "snippet",
           maxResults: 5,
           q: name,
@@ -41,35 +44,72 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className="main">
-        <center>
-          <div className="form_div">
-            <form className="form_input" onSubmit={this.submitHandler}>
-              <input
-                type="text"
-                placeholder="search"
-                value={this.state.serchItem}
-                onChange={this.handleChange}
-                className="form-control m-2 flex-0.2"
-                aria-label="Large"
-                aria-describedby="inputGroup-sizing-sm"
-              />
+      <Router>
+        <div>
+          <Switch>
+            <Route path="/search">
+              <div className="main">
+                <center>
+                  <div className="form_div">
+                    {/*<form className="form_input" onSubmit={this.submitHandler}>
+                      <input
+                        type="text"
+                        placeholder="search"
+                        value={this.state.serchItem}
+                        onChange={this.handleChange}
+                        className="input form-control m-2 flex-0.2"
+                        aria-label="Large"
+                        aria-describedby="inputGroup-sizing-sm"
+                      />
 
-              {/*<h1>{this.state.serchItem}</h1>*/}
-            </form>
-          </div>
-          <hr />
-          <div>
-            {this.state.videosList ? <Big data={this.state.selected} /> : null}
-          </div>
-          <div className="m-3">
-            <List
-              listData={this.state.videosList}
-              clickHandler={this.clickHandler}
-            />
-          </div>
-        </center>
-      </div>
+                      
+                    </form>
+                    */}
+                    <form
+                      //className={classes.root}
+                      noValidate
+                      autoComplete="off"
+                      onSubmit={this.submitHandler}
+                    >
+                      <TextField
+                        onChange={this.handleChange}
+                        id="standard-full-width"
+                        style={{ margin: 8 }}
+                        placeholder="Search"
+                        fullWidth
+                        margin="normal"
+                        InputLabelProps={{
+                          shrink: true,
+                        }}
+                      />
+                    </form>
+                  </div>
+                  <Link to="/">Home</Link>
+
+                  <hr />
+
+                  <div>
+                    {this.state.videosList ? (
+                      <Big data={this.state.selected} />
+                    ) : null}
+                  </div>
+
+                  <div className="m-3">
+                    <List
+                      listData={this.state.videosList}
+                      clickHandler={this.clickHandler}
+                    />
+                  </div>
+                </center>
+              </div>
+            </Route>
+            <Route path="/">
+              <Home />
+              <Link to="/search">Search</Link>
+            </Route>
+          </Switch>
+        </div>
+      </Router>
     );
   }
 }

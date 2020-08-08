@@ -1,3 +1,6 @@
 .form_div {
   width: 80%;
 }
+input:focus {
+  outline-color: none;
+}

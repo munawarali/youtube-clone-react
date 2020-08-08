@@ -8,7 +8,7 @@ const List = ({ listData, clickHandler }) => {
         ? data.map((item) => (
             <div
               className="card m-3"
-              style={{ width: "18rem" }}
+              style={{ width: "14rem" }}
               key={item.id.videoId}
               onClick={() => {
                 clickHandler(item);
@@ -20,11 +20,9 @@ const List = ({ listData, clickHandler }) => {
                 alt="Card  cap"
               />
               <div className="card-body">
-                <h5 className="card-title">{item.snippet.title}</h5>
-                <p className="card-text">
-                  Some quick example text to build on the card title and make up
-                  the bulk of the card's content.
-                </p>
+                <h5 className="card-title" style={{ fontSize: "16px" }}>
+                  {item.snippet.title}
+                </h5>
               </div>
             </div>
           ))
