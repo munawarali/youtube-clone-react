@@ -9,7 +9,7 @@ const Recommended = () => {
         params: {
           key: "Your key please",
           part: "snippet",
-          maxResults: 10,
+          maxResults: 20,
           q: "computer programming",
         },
       })
