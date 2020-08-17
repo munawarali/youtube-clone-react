@@ -26,7 +26,7 @@ class App extends React.Component {
         params: {
           key: "your key please",
           part: "snippet",
-          maxResults: 2,
+          maxResults: 15,
           q: name,
         },
       })
