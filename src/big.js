@@ -5,15 +5,18 @@ const Big = ({ data }) => {
   return (
     <div>
       {videoList ? (
-        <iframe
-          title="..."
-          width="80%"
-          height="400"
-          src={src + videoList.id.videoId}
-          frameborder="0"
-          allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-        />
+        <div>
+          <iframe
+            title="..."
+            width="700"
+            height="400"
+            src={src + videoList.id.videoId}
+            frameborder="0"
+            allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+          />
+          <h4 style={{ width: "699px" }}>{videoList.snippet.title}</h4>
+        </div>
       ) : null}
     </div>
   );

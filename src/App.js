@@ -1,30 +1,32 @@
 import React from "react";
 import "./App.css";
 import youtube from "./axios";
-import Big from "./big";
-import List from "./list";
+import Sidebar from "./Sidebar";
+import Recommended from "./Recommended";
+import Search from "./Search";
 import Home from "./Home";
-import TextField from "@material-ui/core/TextField";
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 class App extends React.Component {
   state = {
     serchItem: "",
     videosList: [],
     selected: null,
+    show: false,
+    sidebar: true,
+    big: null,
   };
-  handleChange = (e) => {
+  onChange = (e) => {
     const value = e.target.value;
     this.setState({ serchItem: value });
   };
-  submitHandler = (e) => {
+  onSubmitHandler = (e) => {
     e.preventDefault();
     const name = this.state.serchItem;
     youtube
       .get("search", {
         params: {
-          key: "AIzaSyAlqx65iCtGjdaoSg0RjM0Cvi8Z_9G2wwc",
+          key: "your key please",
           part: "snippet",
-          maxResults: 5,
+          maxResults: 2,
           q: name,
         },
       })
@@ -36,80 +38,49 @@ class App extends React.Component {
         console.log(this.state.videosList);
       })
       .catch((err) => console.log(err));
+    console.log(this.state.serchItem);
+    this.setState({ show: true, big: null, sidebar: true });
   };
-  clickHandler = (id) => {
-    console.log(id);
-    this.setState({ selected: id });
+  listClickHandler = () => {
+    this.setState({ sidebar: false });
   };
-
+  clickHandler = (item) => {
+    this.setState({ big: item });
+  };
+  homeHandler = () => {
+    this.setState({ show: false });
+  };
   render() {
     return (
-      <Router>
-        <div>
-          <Switch>
-            <Route path="/search">
-              <div className="main">
-                <center>
-                  <div className="form_div">
-                    {/*<form className="form_input" onSubmit={this.submitHandler}>
-                      <input
-                        type="text"
-                        placeholder="search"
-                        value={this.state.serchItem}
-                        onChange={this.handleChange}
-                        className="input form-control m-2 flex-0.2"
-                        aria-label="Large"
-                        aria-describedby="inputGroup-sizing-sm"
-                      />
+      <div>
+        <Home onchange={this.onChange} onsubmit={this.onSubmitHandler} />
 
-                      
-                    </form>
-                    */}
-                    <form
-                      //className={classes.root}
-                      noValidate
-                      autoComplete="off"
-                      onSubmit={this.submitHandler}
-                    >
-                      <TextField
-                        onChange={this.handleChange}
-                        id="standard-full-width"
-                        style={{ margin: 8 }}
-                        placeholder="Search"
-                        fullWidth
-                        margin="normal"
-                        InputLabelProps={{
-                          shrink: true,
-                        }}
-                      />
-                    </form>
-                  </div>
-                  <Link to="/">Home</Link>
-
-                  <hr />
-
-                  <div>
-                    {this.state.videosList ? (
-                      <Big data={this.state.selected} />
-                    ) : null}
-                  </div>
-
-                  <div className="m-3">
-                    <List
-                      listData={this.state.videosList}
-                      clickHandler={this.clickHandler}
-                    />
-                  </div>
-                </center>
-              </div>
-            </Route>
-            <Route path="/">
-              <Home />
-              <Link to="/search">Search</Link>
-            </Route>
-          </Switch>
+        <div className="d-flex">
+          {this.state.sidebar ? (
+            <div className="mr-2" style={{ position: "fixed" }}>
+              <Sidebar homeHandler={this.homeHandler} />
+            </div>
+          ) : null}
+          <div
+            style={
+              this.state.sidebar
+                ? { marginLeft: "100px" }
+                : { marginLeft: "20px" }
+            }
+          >
+            {this.state.show === true ? (
+              <Search
+                listData={this.state.videosList}
+                listClickHandler={this.listClickHandler}
+                clickHandler={this.clickHandler}
+                data={this.state.big}
+              />
+            ) : (
+              <Recommended />
+            )}
+          </div>
         </div>
-      </Router>
+      </div>
     );
   }
 }
